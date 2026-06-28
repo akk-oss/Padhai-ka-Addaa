@@ -48,4 +48,43 @@ public class CategoryService {
                 ))
                 .collect(Collectors.toList());
     }
+    public CategoryResponse getCategoryById(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        return new CategoryResponse(
+                category.getId(),
+                category.getName(),
+                category.getDescription(),
+                category.getImageUrl()
+        );
+    }
+    public CategoryResponse updateCategory(Long id, CategoryRequest request) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        category.setName(request.getName());
+        category.setDescription(request.getDescription());
+        category.setImageUrl(request.getImageUrl());
+
+        Category updatedCategory = categoryRepository.save(category);
+
+        return new CategoryResponse(
+                updatedCategory.getId(),
+                updatedCategory.getName(),
+                updatedCategory.getDescription(),
+                updatedCategory.getImageUrl()
+        );
+    }
+    public String deleteCategory(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        categoryRepository.delete(category);
+
+        return "Category deleted successfully";
+    }
 }
