@@ -17,4 +17,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     boolean existsByCourseIdAndLessonOrder(Long courseId, Integer lessonOrder);
 
     List<Lesson> findByTitleContainingIgnoreCase(String keyword);
+    long countByCourseId(Long courseId);
 }
