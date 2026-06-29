@@ -1,5 +1,5 @@
 package com.padhai.backend.service;
-
+import com.padhai.backend.exception.ResourceNotFoundException;
 import com.padhai.backend.dto.CourseRequest;
 import com.padhai.backend.dto.CourseResponse;
 import com.padhai.backend.entity.Category;
@@ -26,7 +26,7 @@ public class CourseService {
     public CourseResponse createCourse(CourseRequest request) {
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         Course course = new Course();
         course.setTitle(request.getTitle());
@@ -66,7 +66,7 @@ public class CourseService {
     public CourseResponse getCourseById(Long id) {
 
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         return new CourseResponse(
                 course.getId(),
@@ -82,10 +82,10 @@ public class CourseService {
     public CourseResponse updateCourse(Long id, CourseRequest request) {
 
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         course.setTitle(request.getTitle());
         course.setDescription(request.getDescription());
@@ -108,7 +108,7 @@ public class CourseService {
     public String deleteCourse(Long id) {
 
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         courseRepository.delete(course);
 

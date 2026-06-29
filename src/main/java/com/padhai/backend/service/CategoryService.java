@@ -1,5 +1,6 @@
 package com.padhai.backend.service;
-
+import com.padhai.backend.exception.DuplicateResourceException;
+import com.padhai.backend.exception.ResourceNotFoundException;
 import com.padhai.backend.dto.CategoryRequest;
 import com.padhai.backend.dto.CategoryResponse;
 import com.padhai.backend.entity.Category;
@@ -19,7 +20,7 @@ public class CategoryService {
     public CategoryResponse createCategory(CategoryRequest request) {
 
         if (categoryRepository.existsByName(request.getName())) {
-            throw new RuntimeException("Category already exists");
+            throw new DuplicateResourceException("Category already exists");
         }
 
         Category category = new Category();
@@ -51,7 +52,7 @@ public class CategoryService {
     public CategoryResponse getCategoryById(Long id) {
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         return new CategoryResponse(
                 category.getId(),
@@ -63,7 +64,7 @@ public class CategoryService {
     public CategoryResponse updateCategory(Long id, CategoryRequest request) {
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         category.setName(request.getName());
         category.setDescription(request.getDescription());
@@ -81,7 +82,7 @@ public class CategoryService {
     public String deleteCategory(Long id) {
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         categoryRepository.delete(category);
 

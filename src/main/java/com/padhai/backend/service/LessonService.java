@@ -1,5 +1,6 @@
 package com.padhai.backend.service;
-
+import com.padhai.backend.exception.ResourceNotFoundException;
+import com.padhai.backend.exception.DuplicateResourceException;
 import com.padhai.backend.dto.LessonRequest;
 import com.padhai.backend.entity.Course;
 import com.padhai.backend.entity.Lesson;
@@ -27,13 +28,13 @@ public class LessonService {
     public LessonResponse createLesson(LessonRequest request) {
 
         Course course = courseRepository.findById(request.getCourseId())
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         if (lessonRepository.existsByCourseIdAndLessonOrder(
                 request.getCourseId(),
                 request.getLessonOrder())) {
 
-            throw new RuntimeException("Lesson order already exists");
+            throw new DuplicateResourceException("Lesson order already exists");
         }
 
         Lesson lesson = new Lesson();
@@ -61,7 +62,7 @@ public class LessonService {
     public List<LessonResponse> getLessonsByCourse(Long courseId) {
 
         courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         return lessonRepository.findByCourseIdOrderByLessonOrderAsc(courseId)
                 .stream()
@@ -80,7 +81,7 @@ public class LessonService {
     public LessonResponse getLessonById(Long id) {
 
         Lesson lesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
         return new LessonResponse(
                 lesson.getId(),
@@ -96,7 +97,7 @@ public class LessonService {
     public LessonResponse updateLesson(Long id, LessonRequest request) {
 
         Lesson lesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
         Course course = courseRepository.findById(request.getCourseId())
                 .orElseThrow(() -> new RuntimeException("Course not found"));
@@ -107,7 +108,7 @@ public class LessonService {
                 request.getCourseId(),
                 request.getLessonOrder())) {
 
-            throw new RuntimeException("Lesson order already exists");
+            throw new DuplicateResourceException("Lesson order already exists");
         }
 
         lesson.setTitle(request.getTitle());
@@ -133,7 +134,7 @@ public class LessonService {
     public String deleteLesson(Long id) {
 
         Lesson lesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
         lessonRepository.delete(lesson);
 
