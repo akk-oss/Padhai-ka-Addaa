@@ -4,6 +4,7 @@ import com.padhai.backend.dto.QuestionRequest;
 import com.padhai.backend.dto.QuestionResponse;
 import com.padhai.backend.service.QuestionService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class QuestionController {
     }
 
     // Create Question
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER')")
     @PostMapping
     public QuestionResponse createQuestion(
             @Valid @RequestBody QuestionRequest request) {
@@ -27,6 +29,7 @@ public class QuestionController {
     }
 
     // Get Questions By Quiz
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER','STUDENT')")
     @GetMapping("/quiz/{quizId}")
     public List<QuestionResponse> getQuestionsByQuiz(
             @PathVariable Long quizId) {
@@ -35,6 +38,7 @@ public class QuestionController {
     }
 
     // Get Question By ID
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER','STUDENT')")
     @GetMapping("/{id}")
     public QuestionResponse getQuestionById(
             @PathVariable Long id) {
@@ -42,6 +46,7 @@ public class QuestionController {
         return questionService.getQuestionById(id);
     }
     // Update Question
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER')")
     @PutMapping("/{id}")
     public QuestionResponse updateQuestion(
             @PathVariable Long id,
@@ -51,6 +56,7 @@ public class QuestionController {
     }
 
     // Delete Question
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteQuestion(@PathVariable Long id) {
 

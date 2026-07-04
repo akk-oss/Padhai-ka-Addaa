@@ -4,6 +4,7 @@ import com.padhai.backend.dto.QuizAttemptRequest;
 import com.padhai.backend.dto.QuizAttemptResponse;
 import com.padhai.backend.service.QuizAttemptService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class QuizAttemptController {
     }
 
     // Start Quiz Attempt
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @PostMapping("/start")
     public QuizAttemptResponse startAttempt(
             @Valid @RequestBody QuizAttemptRequest request) {
@@ -27,6 +29,7 @@ public class QuizAttemptController {
     }
 
     // Get Attempt By ID
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @GetMapping("/{id}")
     public QuizAttemptResponse getAttemptById(@PathVariable Long id) {
 

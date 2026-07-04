@@ -4,6 +4,7 @@ import com.padhai.backend.dto.QuizRequest;
 import com.padhai.backend.dto.QuizResponse;
 import com.padhai.backend.service.QuizService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,18 +20,21 @@ public class QuizController {
     }
 
     // Create Quiz
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER')")
     @PostMapping
     public QuizResponse createQuiz(@Valid @RequestBody QuizRequest request) {
         return quizService.createQuiz(request);
     }
 
     // Get All Quizzes
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER','STUDENT')")
     @GetMapping
     public List<QuizResponse> getAllQuizzes() {
         return quizService.getAllQuizzes();
     }
 
     // Get Quiz By ID
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER','STUDENT')")
     @GetMapping("/{id}")
     public QuizResponse getQuizById(@PathVariable Long id) {
         return quizService.getQuizById(id);

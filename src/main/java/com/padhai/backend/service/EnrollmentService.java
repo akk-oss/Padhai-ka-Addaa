@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EnrollmentService {
-
+    private String thumbnailUrl;
     private final EnrollmentRepository enrollmentRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
@@ -55,6 +55,7 @@ public class EnrollmentService {
                 user.getFullName(),
                 course.getId(),
                 course.getTitle(),
+                course.getThumbnailUrl(),
                 savedEnrollment.getEnrolledAt()
         );
     }
@@ -68,6 +69,7 @@ public class EnrollmentService {
                         enrollment.getUser().getFullName(),
                         enrollment.getCourse().getId(),
                         enrollment.getCourse().getTitle(),
+                        enrollment.getCourse().getThumbnailUrl(),
                         enrollment.getEnrolledAt()
                 ))
                 .collect(Collectors.toList());
@@ -82,6 +84,7 @@ public class EnrollmentService {
                         enrollment.getUser().getFullName(),
                         enrollment.getCourse().getId(),
                         enrollment.getCourse().getTitle(),
+                        enrollment.getCourse().getThumbnailUrl(),
                         enrollment.getEnrolledAt()
                 ))
                 .collect(Collectors.toList());

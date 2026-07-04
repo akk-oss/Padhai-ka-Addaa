@@ -4,6 +4,7 @@ import com.padhai.backend.dto.LessonProgressRequest;
 import com.padhai.backend.dto.LessonProgressResponse;
 import com.padhai.backend.service.LessonProgressService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class LessonProgressController {
     }
 
     // Start Progress
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @PostMapping
     public LessonProgressResponse startProgress(
             @Valid @RequestBody LessonProgressRequest request) {
@@ -27,6 +29,7 @@ public class LessonProgressController {
     }
 
     // Get Progress by User & Course
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @GetMapping("/user/{userId}/course/{courseId}")
     public List<LessonProgressResponse> getProgressByCourse(
             @PathVariable Long userId,

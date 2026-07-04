@@ -19,12 +19,15 @@ public class EnrollmentResponse {
                               String userName,
                               Long courseId,
                               String courseTitle,
+                              String thumbnailUrl,
                               LocalDateTime enrolledAt) {
+
         this.id = id;
         this.userId = userId;
         this.userName = userName;
         this.courseId = courseId;
         this.courseTitle = courseTitle;
+        this.thumbnailUrl = thumbnailUrl;
         this.enrolledAt = enrolledAt;
     }
 
@@ -75,4 +78,13 @@ public class EnrollmentResponse {
     public void setEnrolledAt(LocalDateTime enrolledAt) {
         this.enrolledAt = enrolledAt;
     }
+
+private String thumbnailUrl;
+
+public String getThumbnailUrl() {
+    return thumbnailUrl;
 }
+
+public void setThumbnailUrl(String thumbnailUrl) {
+    this.thumbnailUrl = thumbnailUrl;
+}}

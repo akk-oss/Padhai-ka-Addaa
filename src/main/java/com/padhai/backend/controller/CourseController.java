@@ -1,13 +1,15 @@
 package com.padhai.backend.controller;
-
+import com.padhai.backend.dto.ApiResponse;
 import com.padhai.backend.dto.CourseRequest;
 import com.padhai.backend.dto.CourseResponse;
 import com.padhai.backend.service.CourseService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
@@ -18,28 +20,73 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER')")
     @PostMapping
-    public CourseResponse createCourse(@Valid @RequestBody CourseRequest request) {
-        return courseService.createCourse(request);
+    public ApiResponse<CourseResponse> createCourse(@RequestBody CourseRequest request) {
+
+        CourseResponse response = courseService.createCourse(request);
+
+        return new ApiResponse<>(
+                true,
+                "Course created successfully",
+                response
+        );
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','TEACHER','STUDENT')")
+    @GetMapping
+    public ApiResponse<List<CourseResponse>> getAllCourses() {
+
+        return new ApiResponse<>(
+                true,
+                "Courses fetched successfully",
+                courseService.getAllCourses()
+        );
     }
 
-    @GetMapping
-    public List<CourseResponse> getAllCourses() {
-        return courseService.getAllCourses();
+    @GetMapping("/page")
+    public Page<CourseResponse> getAllCoursesWithPagination(
+
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam(defaultValue = "") String keyword) {
+
+        return courseService.getAllCourses(
+                page,
+                size,
+                sortBy,
+                direction,
+                keyword
+        );
     }
     @GetMapping("/{id}")
-    public CourseResponse getCourseById(@PathVariable Long id) {
-        return courseService.getCourseById(id);
+    public ApiResponse<CourseResponse> getCourseById(@PathVariable Long id) {
+
+        return new ApiResponse<>(
+                true,
+                "Course fetched successfully",
+                courseService.getCourseById(id)
+        );
     }
     @PutMapping("/{id}")
-    public CourseResponse updateCourse(
+    public ApiResponse<CourseResponse> updateCourse(
             @PathVariable Long id,
-            @Valid @RequestBody CourseRequest request) {
+            @RequestBody CourseRequest request) {
 
-        return courseService.updateCourse(id, request);
+        return new ApiResponse<>(
+                true,
+                "Course updated successfully",
+                courseService.updateCourse(id, request)
+        );
     }
     @DeleteMapping("/{id}")
-    public String deleteCourse(@PathVariable Long id) {
-        return courseService.deleteCourse(id);
+    public ApiResponse<String> deleteCourse(@PathVariable Long id) {
+
+        return new ApiResponse<>(
+                true,
+                "Course deleted successfully",
+                courseService.deleteCourse(id)
+        );
     }
 }

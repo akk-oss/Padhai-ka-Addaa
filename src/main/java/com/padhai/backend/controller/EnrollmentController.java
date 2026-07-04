@@ -4,6 +4,7 @@ import com.padhai.backend.dto.EnrollmentRequest;
 import com.padhai.backend.dto.EnrollmentResponse;
 import com.padhai.backend.service.EnrollmentService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,11 +16,12 @@ public class EnrollmentController {
     public EnrollmentController(EnrollmentService enrollmentService) {
         this.enrollmentService = enrollmentService;
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @PostMapping
     public EnrollmentResponse enrollStudent(@Valid @RequestBody EnrollmentRequest request) {
         return enrollmentService.enrollStudent(request);
     }
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @GetMapping("/user/{userId}")
     public List<EnrollmentResponse> getEnrollmentsByUser(@PathVariable Long userId) {
         return enrollmentService.getEnrollmentsByUser(userId);

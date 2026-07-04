@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 @Service
 public class CourseService {
 
@@ -63,6 +66,37 @@ public class CourseService {
                 ))
                 .collect(Collectors.toList());
     }
+    public Page<CourseResponse> getAllCourses(
+            int page,
+            int size,
+            String sortBy,
+            String direction,
+            String keyword) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Course> courses;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            courses = courseRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+        } else {
+            courses = courseRepository.findAll(pageable);
+        }
+
+        return courses.map(course -> new CourseResponse(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getPrice(),
+                course.getThumbnailUrl(),
+                course.getCategory().getId(),
+                course.getCategory().getName()
+        ));
+    }
     public CourseResponse getCourseById(Long id) {
 
         Course course = courseRepository.findById(id)
@@ -114,4 +148,5 @@ public class CourseService {
 
         return "Course deleted successfully";
     }
+
 }

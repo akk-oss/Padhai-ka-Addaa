@@ -4,6 +4,7 @@ import com.padhai.backend.dto.QuizAnswerRequest;
 import com.padhai.backend.dto.QuizAnswerResponse;
 import com.padhai.backend.service.QuizAnswerService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class QuizAnswerController {
     }
 
     // Submit Answer
+    @PreAuthorize("hasAnyRole('ADMIN','STUDENT')")
     @PostMapping
     public QuizAnswerResponse submitAnswer(
             @Valid @RequestBody QuizAnswerRequest request) {
