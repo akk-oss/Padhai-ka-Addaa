@@ -56,7 +56,7 @@ public class SecurityConfiguration {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173","https://padhai-ka-addaa-frontend.onrender.com"));
 
         configuration.setAllowedMethods(List.of("*"));
 
