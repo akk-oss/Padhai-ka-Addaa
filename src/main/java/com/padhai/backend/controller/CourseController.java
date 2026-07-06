@@ -32,7 +32,7 @@ public class CourseController {
                 response
         );
     }
-    @PreAuthorize("hasAnyRole('ADMIN','TEACHER','STUDENT')")
+
     @GetMapping
     public ApiResponse<List<CourseResponse>> getAllCourses() {
 

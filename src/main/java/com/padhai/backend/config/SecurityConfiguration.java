@@ -32,14 +32,14 @@ public class SecurityConfiguration {
                 .cors(cors -> {});
         http
                 .csrf(csrf -> csrf.disable())   // ⭐ Ye line add karo
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/api/courses/**",
-                                "/api/payment/**",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**"
-                        ).permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers(
+                                        "/api/auth/**",
+                                        "/api/courses/**",
+                                        "/api/payment/create-order",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                ).permitAll()
                         .anyRequest().authenticated()
                 )
 
