@@ -56,12 +56,18 @@ public class SecurityConfiguration {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173","https://padhai-ka-addaa-frontend.onrender.com"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://padhai-ka-addaa-frontend.onrender.com",
+                "https://padhaikaaddaa.online",
+                "https://www.padhaikaaddaa.online"
+        ));
 
-        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
 
         configuration.setAllowedHeaders(List.of("*"));
-
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
