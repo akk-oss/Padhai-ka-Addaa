@@ -26,7 +26,7 @@ public class PaymentController {
         RazorpayClient client = new RazorpayClient(config.getKey(), config.getSecret());
 
         JSONObject orderRequest = new JSONObject();
-        orderRequest.put("amount", 499);
+        orderRequest.put("amount", 49900);
         orderRequest.put("currency", "INR");
         orderRequest.put("receipt", "course_001");
 
