@@ -1,4 +1,5 @@
 package com.padhai.backend.service;
+
 import com.padhai.backend.dto.LoginRequest;
 import com.padhai.backend.dto.RegisterRequest;
 import com.padhai.backend.entity.User;
@@ -7,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.padhai.backend.security.JwtService;
 import com.padhai.backend.dto.LoginResponse;
+import com.padhai.backend.entity.Role;
 @Service
 public class AuthService {
 
@@ -30,8 +32,9 @@ public class AuthService {
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setRole(Role.STUDENT);
 
         userRepository.save(user);
 
