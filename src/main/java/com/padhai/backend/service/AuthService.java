@@ -3,12 +3,14 @@ package com.padhai.backend.service;
 import com.padhai.backend.dto.LoginRequest;
 import com.padhai.backend.dto.RegisterRequest;
 import com.padhai.backend.entity.User;
+import com.padhai.backend.enums.Role;
 import com.padhai.backend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.padhai.backend.security.JwtService;
 import com.padhai.backend.dto.LoginResponse;
-import com.padhai.backend.entity.Role;
+
+
 @Service
 public class AuthService {
 
@@ -43,10 +45,10 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Email is not registered. Please register first."));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid Password");
+            throw new RuntimeException("Incorrect password.");
         }
 
         String token = jwtService.generateToken(user.getEmail());
