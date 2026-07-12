@@ -57,7 +57,8 @@ public class AuthService {
                 token,
                 user.getRole().name(),
                 user.getFullName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getId()
         );
     }
 }
