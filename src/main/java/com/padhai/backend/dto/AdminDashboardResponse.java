@@ -2,7 +2,8 @@ package com.padhai.backend.dto;
 
 public class AdminDashboardResponse {
 
-    private Long totalUsers;
+    private Long totalStudents;
+    private Long totalTeachers;
     private Long totalCategories;
     private Long totalCourses;
     private Long totalLessons;
@@ -14,7 +15,8 @@ public class AdminDashboardResponse {
     public AdminDashboardResponse() {
     }
 
-    public AdminDashboardResponse(Long totalUsers,
+    public AdminDashboardResponse(Long totalStudents,
+                                  Long totalTeachers,
                                   Long totalCategories,
                                   Long totalCourses,
                                   Long totalLessons,
@@ -23,7 +25,8 @@ public class AdminDashboardResponse {
                                   Long totalQuestions,
                                   Long totalQuizAttempts) {
 
-        this.totalUsers = totalUsers;
+        this.totalStudents = totalStudents;
+        this.totalTeachers = totalTeachers;
         this.totalCategories = totalCategories;
         this.totalCourses = totalCourses;
         this.totalLessons = totalLessons;
@@ -33,12 +36,20 @@ public class AdminDashboardResponse {
         this.totalQuizAttempts = totalQuizAttempts;
     }
 
-    public Long getTotalUsers() {
-        return totalUsers;
+    public Long getTotalStudents() {
+        return totalStudents;
     }
 
-    public void setTotalUsers(Long totalUsers) {
-        this.totalUsers = totalUsers;
+    public void setTotalStudents(Long totalStudents) {
+        this.totalStudents = totalStudents;
+    }
+
+    public Long getTotalTeachers() {
+        return totalTeachers;
+    }
+
+    public void setTotalTeachers(Long totalTeachers) {
+        this.totalTeachers = totalTeachers;
     }
 
     public Long getTotalCategories() {

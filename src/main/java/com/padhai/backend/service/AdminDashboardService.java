@@ -3,7 +3,7 @@ package com.padhai.backend.service;
 import com.padhai.backend.dto.AdminDashboardResponse;
 import com.padhai.backend.repository.*;
 import org.springframework.stereotype.Service;
-
+import com.padhai.backend.enums.Role;
 @Service
 public class AdminDashboardService {
 
@@ -35,17 +35,26 @@ public class AdminDashboardService {
         this.questionRepository = questionRepository;
         this.quizAttemptRepository = quizAttemptRepository;
     }
-
     public AdminDashboardResponse getDashboard() {
 
         return new AdminDashboardResponse(
-                userRepository.count(),
+
+                userRepository.countByRole(Role.STUDENT),
+
+                userRepository.countByRole(Role.TEACHER),
+
                 categoryRepository.count(),
+
                 courseRepository.count(),
+
                 lessonRepository.count(),
+
                 enrollmentRepository.count(),
+
                 quizRepository.count(),
+
                 questionRepository.count(),
+
                 quizAttemptRepository.count()
         );
     }
