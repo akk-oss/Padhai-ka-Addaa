@@ -1,5 +1,4 @@
 package com.padhai.backend.service.impl;
-
 import com.padhai.backend.dto.FileUploadResponse;
 import com.padhai.backend.dto.NoteRequest;
 import com.padhai.backend.dto.NoteResponse;
@@ -10,7 +9,7 @@ import com.padhai.backend.repository.NoteRepository;
 import com.padhai.backend.service.FileStorageService;
 import com.padhai.backend.service.NoteService;
 import org.springframework.stereotype.Service;
-
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +39,20 @@ public class NoteServiceImpl implements NoteService {
         note.setTitle(request.getTitle());
         note.setDescription(request.getDescription());
         note.setCourse(course);
-        FileUploadResponse uploadResponse =
-                fileStorageService.uploadFile(request.getFile());
 
-        note.setFileName(uploadResponse.getFileName());
-        note.setFileUrl(uploadResponse.getFileUrl());
+        try {
+
+            FileUploadResponse uploadResponse =
+                    fileStorageService.uploadFile(request.getFile());
+
+            note.setFileName(uploadResponse.getFileName());
+            note.setFileUrl(uploadResponse.getFileUrl());
+
+        } catch (IOException e) {
+
+            throw new RuntimeException("File upload failed", e);
+
+        }
 
         Note saved = noteRepository.save(note);
 
