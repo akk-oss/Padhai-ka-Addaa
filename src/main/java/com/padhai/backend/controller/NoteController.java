@@ -23,9 +23,9 @@ public class NoteController {
     // ================= CREATE NOTE =================
 
     @PreAuthorize("hasAnyRole('ADMIN','TEACHER')")
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<NoteResponse> createNote(
-            @RequestBody NoteRequest request
+            @ModelAttribute NoteRequest request
     ) {
 
         return ResponseEntity.ok(

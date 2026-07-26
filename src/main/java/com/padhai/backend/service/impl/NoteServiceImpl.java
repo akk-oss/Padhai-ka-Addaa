@@ -1,5 +1,6 @@
 package com.padhai.backend.service.impl;
 
+import com.padhai.backend.dto.FileUploadResponse;
 import com.padhai.backend.dto.NoteRequest;
 import com.padhai.backend.dto.NoteResponse;
 import com.padhai.backend.entity.Course;
@@ -39,6 +40,11 @@ public class NoteServiceImpl implements NoteService {
         note.setTitle(request.getTitle());
         note.setDescription(request.getDescription());
         note.setCourse(course);
+        FileUploadResponse uploadResponse =
+                fileStorageService.uploadFile(request.getFile());
+
+        note.setFileName(uploadResponse.getFileName());
+        note.setFileUrl(uploadResponse.getFileUrl());
 
         Note saved = noteRepository.save(note);
 

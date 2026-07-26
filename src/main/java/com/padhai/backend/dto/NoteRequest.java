@@ -1,10 +1,13 @@
 package com.padhai.backend.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class NoteRequest {
 
     private String title;
     private String description;
     private Long courseId;
+    private MultipartFile file;
 
     public NoteRequest() {
     }
@@ -31,5 +34,13 @@ public class NoteRequest {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
