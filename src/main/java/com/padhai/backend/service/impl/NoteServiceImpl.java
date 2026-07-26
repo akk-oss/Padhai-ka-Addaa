@@ -1,15 +1,14 @@
 package com.padhai.backend.service.impl;
-import com.padhai.backend.dto.FileUploadResponse;
+
 import com.padhai.backend.dto.NoteRequest;
 import com.padhai.backend.dto.NoteResponse;
 import com.padhai.backend.entity.Course;
 import com.padhai.backend.entity.Note;
 import com.padhai.backend.repository.CourseRepository;
 import com.padhai.backend.repository.NoteRepository;
-import com.padhai.backend.service.FileStorageService;
 import com.padhai.backend.service.NoteService;
 import org.springframework.stereotype.Service;
-import java.io.IOException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,14 +17,12 @@ public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
     private final CourseRepository courseRepository;
-    private final FileStorageService fileStorageService;
+
     public NoteServiceImpl(NoteRepository noteRepository,
-                           CourseRepository courseRepository,
-                           FileStorageService fileStorageService) {
+                           CourseRepository courseRepository) {
 
         this.noteRepository = noteRepository;
         this.courseRepository = courseRepository;
-        this.fileStorageService = fileStorageService;
     }
 
     @Override
@@ -35,26 +32,12 @@ public class NoteServiceImpl implements NoteService {
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
         Note note = new Note();
-        note.setFileName(request.getFileName());
-        note.setFileUrl(request.getFileUrl());
+
         note.setTitle(request.getTitle());
         note.setDescription(request.getDescription());
         note.setCourse(course);
-
-
-        try {
-
-            FileUploadResponse uploadResponse =
-                    fileStorageService.uploadFile(request.getFile());
-
-            note.setFileName(uploadResponse.getFileName());
-            note.setFileUrl(uploadResponse.getFileUrl());
-
-        } catch (IOException e) {
-
-            throw new RuntimeException("File upload failed", e);
-
-        }
+        note.setFileName(request.getFileName());
+        note.setFileUrl(request.getFileUrl());
 
         Note saved = noteRepository.save(note);
 
@@ -68,7 +51,6 @@ public class NoteServiceImpl implements NoteService {
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -78,7 +60,6 @@ public class NoteServiceImpl implements NoteService {
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -88,14 +69,12 @@ public class NoteServiceImpl implements NoteService {
                 .orElseThrow(() -> new RuntimeException("Note not found"));
 
         return mapToResponse(note);
-
     }
 
     @Override
     public void deleteNote(Long id) {
 
         noteRepository.deleteById(id);
-
     }
 
     private NoteResponse mapToResponse(Note note) {
@@ -109,7 +88,5 @@ public class NoteServiceImpl implements NoteService {
         response.setFileUrl(note.getFileUrl());
 
         return response;
-
     }
-
 }
