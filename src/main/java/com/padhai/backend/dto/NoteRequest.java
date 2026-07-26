@@ -1,13 +1,12 @@
 package com.padhai.backend.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class NoteRequest {
 
     private String title;
     private String description;
     private Long courseId;
-    private MultipartFile file;
+    private String fileName;
+    private String fileUrl;
 
     public NoteRequest() {
     }
@@ -36,11 +35,19 @@ public class NoteRequest {
         this.courseId = courseId;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 }

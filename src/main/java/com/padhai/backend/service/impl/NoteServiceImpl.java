@@ -35,10 +35,12 @@ public class NoteServiceImpl implements NoteService {
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
         Note note = new Note();
-
+        note.setFileName(request.getFileName());
+        note.setFileUrl(request.getFileUrl());
         note.setTitle(request.getTitle());
         note.setDescription(request.getDescription());
         note.setCourse(course);
+
 
         try {
 
