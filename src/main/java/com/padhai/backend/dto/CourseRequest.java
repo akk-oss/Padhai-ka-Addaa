@@ -20,10 +20,30 @@ public class CourseRequest {
 
     private String thumbnailUrl;
 
+    // Home Page fields
+    private String subtitle;
+
+    private String subjects;
+
+    private BigDecimal oldPrice;
+
+    private String tag;
+
+    private String icon;
+
+    private String gradient;
+
     @NotNull(message = "Category Id is required")
     private Long categoryId;
 
-    public CourseRequest() {}
+
+    // ================= CONSTRUCTOR =================
+
+    public CourseRequest() {
+    }
+
+
+    // ================= GETTERS =================
 
     public String getTitle() {
         return title;
@@ -41,9 +61,36 @@ public class CourseRequest {
         return thumbnailUrl;
     }
 
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public String getSubjects() {
+        return subjects;
+    }
+
+    public BigDecimal getOldPrice() {
+        return oldPrice;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public String getGradient() {
+        return gradient;
+    }
+
     public Long getCategoryId() {
         return categoryId;
     }
+
+
+    // ================= SETTERS =================
 
     public void setTitle(String title) {
         this.title = title;
@@ -59,6 +106,30 @@ public class CourseRequest {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setSubjects(String subjects) {
+        this.subjects = subjects;
+    }
+
+    public void setOldPrice(BigDecimal oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public void setGradient(String gradient) {
+        this.gradient = gradient;
     }
 
     public void setCategoryId(Long categoryId) {
